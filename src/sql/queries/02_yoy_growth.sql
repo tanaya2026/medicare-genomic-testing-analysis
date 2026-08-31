@@ -1,6 +1,8 @@
 USE MedicareGenomicAnalysis;
 GO
 
+CREATE OR ALTER VIEW dbo.vw_YearlyCategoryGrowth AS
+
 -- Calculates year-over-year growth percentages for services and spending
 -- across each genomic test category using window lag functions.
 
@@ -32,14 +34,13 @@ SELECT
     Total_Services,
     Prev_Year_Services,
     CASE 
-        WHEN Prev_Year_Services > 0 THEN ROUND(((CAST(Total_Services AS FLOAT) - Prev_Year_Services) / Prev_Year_Services) * 100, 2)
+        WHEN Prev_Year_Services >= 50 THEN ROUND(((CAST(Total_Services AS FLOAT) - Prev_Year_Services) / Prev_Year_Services) * 100, 2)
         ELSE NULL 
     END AS Services_YoY_Growth_Pct,
     Total_Spend,
     CASE 
-        WHEN Prev_Year_Spend > 0 THEN ROUND(((CAST(Total_Spend AS FLOAT) - Prev_Year_Spend) / Prev_Year_Spend) * 100, 2)
+        WHEN Prev_Year_Spend >= 100000 THEN ROUND(((CAST(Total_Spend AS FLOAT) - Prev_Year_Spend) / Prev_Year_Spend) * 100, 2)
         ELSE NULL 
     END AS Spend_YoY_Growth_Pct
-FROM LaggedData
-ORDER BY TEST_Category, Year;
+FROM LaggedData;
 GO

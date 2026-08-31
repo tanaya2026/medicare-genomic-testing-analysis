@@ -1,6 +1,8 @@
 USE MedicareGenomicAnalysis;
 GO
 
+CREATE OR ALTER VIEW dbo.vw_GenomicTestLocationQuotient AS
+
 -- Calculates Location Quotients to compare how heavily a state relies on a
 -- specific genomic test category relative to national testing patterns.
 
@@ -38,6 +40,5 @@ SELECT
 FROM StateCategoryTotals sct
 JOIN StateTotals st ON sct.State = st.State
 JOIN NationalCategoryTotals nct ON sct.Test_Category = nct.Test_Category
-CROSS JOIN NationalTotal nt
-ORDER BY Location_Quotient DESC;
+CROSS JOIN NationalTotal nt;
 GO

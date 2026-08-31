@@ -20,6 +20,7 @@ SELECT
         ELSE 0 
     END AS Cost_Per_Service
 FROM dbo.cms_2018_2024_combined
+WHERE TEST_Category NOT IN ('Other', 'Exclude - Not Genomic')
 GROUP BY 
     Year,
     Rndrng_Prvdr_Geo_Desc,

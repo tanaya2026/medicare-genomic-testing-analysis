@@ -194,7 +194,7 @@ Sourced from `vw_GenomicKPIs` and `vw_YearlyCategoryGrowth`.
 
 **Are specific categories concentrated in particular states?** Yes, clearly. South Carolina, Ohio, and Missouri order Pharmacogenomics testing at 14.1, 11.5, and 10.8 times their expected national share. Connecticut, Michigan, and Iowa show similarly strong concentration in Hematologic Malignancy Monitoring. This concentration isn't related to the Wisconsin billing artifact above, since Cologuard falls under Tumor Genomic Profiling, a different category entirely.
 
-Sourced from `vw_GenomicKPIs`, `vw_StateUtilizationPer100k`, and `vw_GenomicTestLocationQuotient`.
+Sourced from `vw_GenomicKPIs`, `vw_StateGenomicZScoreOutliers`, and `vw_GenomicTestLocationQuotient`.
 
 </details>
 
@@ -210,14 +210,28 @@ Two states required extra scrutiny before this analysis was trustworthy. Wiscons
 <details>
 <summary><strong>Financial (questions 8 to 10), click to expand</strong></summary>
 
-Total and category level spend are answered by the Overview and Trends pages. Whether spend is outpacing utilization is answered by the year over year growth comparison chart on the Trends page, which compares average category level growth in spend against average category level growth in services. In most years measured, spend growth outpaced utilization growth, suggesting cost per test is rising, not just test volume.
+**How much is Medicare spending on genomic testing overall?** 6.72 billion dollars across 2018 to 2024 (see Utilization, question 1).
+
+**How does spending vary by category and state?** Tumor Genomic Profiling accounts for 4.18 billion dollars, 62% of all spend, far ahead of Hereditary Cancer Risk at 1.19 billion. By state, California leads at 1.78 billion, with Wisconsin close behind at 1.75 billion, though Wisconsin's figure carries the same billing location caveat noted throughout this document. On the low end, Alaska's total spend across the full seven year period is 8,350 dollars, functionally negligible.
+
+**Is spending growing at the same rate as utilization?** Not consistently, year to year. Spend outpaced services in 2019, and in both 2020 and 2022, spend declined by less than services did, meaning cost per service rose in those years. That pattern reversed sharply in 2023, when services grew 48.6% but spend grew only 27.1%, meaning average cost per service actually fell that year. Looking at the full period rather than year to year, total spend grew 119.4% from 2018 to 2024 while services grew 104.6%, so spend modestly outpaced utilization overall, consistent with a gradual rise in average cost per service, even though that trend wasn't steady in every single year.
+
+Sourced from `vw_GenomicKPIs`.
 
 </details>
 
 <details>
 <summary><strong>Business analytics layer (questions 11 to 14), click to expand</strong></summary>
 
-Core KPIs are defined once in `vw_GenomicKPIs` and reused consistently across every page rather than recalculated differently in different places. Segmentation by state, year, category, and CPT code is available through synced slicers across all five pages. Outlier states are flagged statistically using z-scores (`vw_StateGenomicZScoreOutliers`) rather than an eyeballed ranked list, covering utilization, spend, and cost per service separately, since a state can be an outlier on one metric without being an outlier on another. The closing recommendation is stated above, under question 7.
+**Core KPIs.** Total services, total beneficiaries, total spend, cost per service, services per 100,000 beneficiaries, and year over year growth are all defined once in `vw_GenomicKPIs` and reused consistently across every page of the dashboard, rather than recalculated separately in different places.
+
+**Segmentation.** Every dashboard page can be filtered interactively by state, year, and test category through synced slicers, and CPT code level detail is available through drill through from the state and category level views down to individual billing codes.
+
+**Which states are statistical outliers?** Different states are outliers for different reasons, which is itself worth noting. Wisconsin is a volume outlier (z of 6.17 on utilization, 4.08 on spend) but not a cost per service outlier, consistent with the Cologuard billing location issue described earlier, since that's a high volume of a relatively low cost test, not an unusually expensive one. California is a spend and cost per service outlier (z of 4.16 and 2.75) without being a utilization outlier, meaning its high total spend reflects a higher average cost per test rather than an unusual volume. Arizona and Utah are cost per service outliers only (z of 3.45 and 3.03), with normal utilization and spend, a distinct pattern from either of the above, a real price difference concentrated in a smaller number of tests rather than a volume or total dollar effect.
+
+**What should a healthcare organization investigate?** First, Kentucky, Rhode Island, Nebraska, Ohio, and Kansas combine above median cancer incidence with genomic testing utilization under 10 services per 100,000 beneficiaries, worth investigating for barriers to testing adoption. Second, Arizona, Utah, and California show elevated cost per service without a corresponding volume outlier, worth investigating separately, since this could reflect a more complex test mix being ordered in those states, or it could reflect billing and coding differences that warrant an audit.
+
+Sourced from `vw_GenomicKPIs` and `vw_StateGenomicZScoreOutliers`.
 
 </details>
 

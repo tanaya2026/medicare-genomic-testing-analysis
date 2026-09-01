@@ -53,12 +53,12 @@ Answers and methodology are in the [Findings](#findings-and-answers-to-the-resea
 - **CMS Medicare Monthly Enrollment**, state level annual beneficiary counts, used to normalize utilization into a rate rather than a raw count.
 - **CDC United States Cancer Statistics (USCS)**, state level age adjusted cancer incidence, available through 2022.
 
-Because CDC data caps out at 2022 while CMS data runs through 2024, the access gap comparison is limited to years where both datasets overlap. This is called out explicitly rather than quietly ignored, see [Limitations](#limitations).
+Because CDC data caps out at 2022 while CMS data runs through 2024, the access gap comparison is limited to years where both datasets overlap. This is called out explicitly, see [Limitations](#limitations).
 
 <details>
 <summary><strong>How the data was pulled (click to expand)</strong></summary>
 
-CMS versions this dataset by year, so a Python script resolves the correct API endpoint for each year dynamically against the `data.json` catalog rather than hardcoding dataset UUIDs, since those change. The script then paginates through each year's endpoint, filtering server side to HCPCS codes starting with 81, so the full multi million row national file is never downloaded. A second script pulls Medicare enrollment the same way. CDC cancer incidence was pulled through the CDC WONDER query tool, grouped by state and year, using age adjusted rate as the primary measure rather than raw counts, since raw counts are driven by population size and would bias any state comparison toward large states from the start.
+CMS versions this dataset by year, so the Python script (`src\data_acquisition\download_cms.py`) resolves the correct API endpoint for each year dynamically against the `data.json` catalog rather than hardcoding dataset UUIDs, since those change. The script then paginates through each year's endpoint, filtering server side to HCPCS codes starting with 81, so the full multi million row national file is never downloaded. A second script (`src\data_acquisition\download_enrollment.py`) pulls Medicare enrollment the same way. CDC cancer incidence was pulled through the CDC WONDER query tool, grouped by state and year, using age adjusted rate as the primary measure rather than raw counts, since raw counts are driven by population size and would bias any state comparison toward large states from the start.
 
 </details>
 

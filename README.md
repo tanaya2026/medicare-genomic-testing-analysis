@@ -109,9 +109,9 @@ The full crosswalk workbook is included in this repo at `data/reference/cms_2018
 
 - `vw_GenomicKPIs`: the core aggregation, rolling raw claims data up to year, state, and test category, with total services, total beneficiaries, total spend, and cost per service.
 - `vw_YearlyCategoryGrowth`: year over year growth in services and spend by category, using `LAG()` to compare each year against the one before it, with the threshold based suppression described above.
-- `vw_GeographicServices`: a flat, pre-joined view combining utilization with state Medicare enrollment, used to calculate services per 100,000 beneficiaries.
+- `vw_StateUtilizationPer100k`: a flat, pre-joined view combining utilization with state Medicare enrollment, used to calculate services per 100,000 beneficiaries.
 - `vw_GenomicTestLocationQuotient`: measures whether a test category is disproportionately concentrated in a given state, calculated as that state's share of a category divided by the category's national share.
-- `vw_StateOutliers`: flags states as statistical outliers (z-score above 2 or below negative 2) on utilization, spend, and cost per service.
+- `vw_StateGenomicZScoreOutliers`: flags states as statistical outliers (z-score above 2 or below negative 2) on utilization, spend, and cost per service.
 - `vw_CancerIncidenceVsGenomicTesting`: joins Medicare utilization against CDC cancer incidence for the two cancer relevant categories, the source for the access gap analysis, with CPT 81528 excluded as described above.
 
 View `src\sql` for SQL views and queries code.
@@ -188,7 +188,13 @@ Sourced from `vw_GenomicKPIs` and `vw_YearlyCategoryGrowth`.
 <details>
 <summary><strong>Geographic (questions 4 to 6), click to expand</strong></summary>
 
-Highest and lowest utilization states, both raw and normalized per 100,000 beneficiaries, are shown on the Geographic page map. Category concentration by state is answered using a Location Quotient calculation (`vw_GenomicTestLocationQuotient`).
+**Which states have the highest and lowest utilization?** Wisconsin records the highest raw volume by far, 3.48 million services across 2018 to 2024, roughly double the next state, Florida (1.58 million). This number carries the same caveat as the Access Gap findings: Wisconsin's total is heavily inflated by CPT 81528 (Cologuard), a screening test billed almost entirely from one lab headquartered there, and CMS attributes services to the billing lab's location, not the patient's. Setting Wisconsin aside, Florida, Texas, California, and New Jersey lead. On the low end, Alaska, Nebraska, and Rhode Island have the fewest services, in the low hundreds or less across the full period.
+
+**Do differences persist after normalizing for population size?** Yes, and Wisconsin's distortion gets worse, not better: its rate of 12,823 services per 100,000 beneficiaries is nearly ten times the next state, New Jersey, at 1,365, for the same billing location reason. Once Wisconsin is set aside, New Jersey and Utah lead the normalized ranking, a different picture than the raw count in Q4, where large population states like Texas and California ranked higher simply due to size. On the low end, Puerto Rico, Nebraska, and Rhode Island stay near the bottom in both raw and normalized terms, suggesting genuinely lower testing rates rather than just a small population, while Michigan only appears low once normalized, meaning its raw count looked unremarkable but its rate relative to its large beneficiary population is actually one of the lowest in the country.
+
+**Are specific categories concentrated in particular states?** Yes, clearly. South Carolina, Ohio, and Missouri order Pharmacogenomics testing at 14.1, 11.5, and 10.8 times their expected national share. Connecticut, Michigan, and Iowa show similarly strong concentration in Hematologic Malignancy Monitoring. This concentration isn't related to the Wisconsin billing artifact above, since Cologuard falls under Tumor Genomic Profiling, a different category entirely.
+
+Sourced from `vw_GenomicKPIs`, `vw_StateUtilizationPer100k`, and `vw_GenomicTestLocationQuotient`.
 
 </details>
 
@@ -211,7 +217,7 @@ Total and category level spend are answered by the Overview and Trends pages. Wh
 <details>
 <summary><strong>Business analytics layer (questions 11 to 14), click to expand</strong></summary>
 
-Core KPIs are defined once in `vw_GenomicKPIs` and reused consistently across every page rather than recalculated differently in different places. Segmentation by state, year, category, and CPT code is available through synced slicers across all five pages. Outlier states are flagged statistically using z-scores (`vw_StateOutliers`) rather than an eyeballed ranked list, covering utilization, spend, and cost per service separately, since a state can be an outlier on one metric without being an outlier on another. The closing recommendation is stated above, under question 7.
+Core KPIs are defined once in `vw_GenomicKPIs` and reused consistently across every page rather than recalculated differently in different places. Segmentation by state, year, category, and CPT code is available through synced slicers across all five pages. Outlier states are flagged statistically using z-scores (`vw_StateGenomicZScoreOutliers`) rather than an eyeballed ranked list, covering utilization, spend, and cost per service separately, since a state can be an outlier on one metric without being an outlier on another. The closing recommendation is stated above, under question 7.
 
 </details>
 

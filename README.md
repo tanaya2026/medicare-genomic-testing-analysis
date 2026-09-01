@@ -175,21 +175,21 @@ The `.pbix` file is included in this repo under `powerbi\Genomic_Testing_Dashboa
 <details>
 <summary><strong>Utilization (questions 1 to 3), click to expand</strong></summary>
 
-Total services, beneficiaries, and spend are answered directly by the Overview page KPI cards, sourced from `vw_GenomicKPIs`. Utilization trends and category growth rates are shown on the Trends page, sourced from `vw_YearlyCategoryGrowth`, with the growth suppression rule described above applied so a handful of extreme percentages calculated from a tiny prior year base don't distort the chart.
+Total services, beneficiaries, and spend are answered directly by the Overview page KPI cards, sourced from `vw_GenomicKPIs`. Utilization trends and category growth rates are shown on the Trends page, sourced from `vw_YearlyCategoryGrowth`.
 
 </details>
 
 <details>
 <summary><strong>Geographic (questions 4 to 6), click to expand</strong></summary>
 
-Highest and lowest utilization states, both raw and normalized per 100,000 beneficiaries, are shown on the Geographic page map. Category concentration by state is answered using a Location Quotient calculation (`vw_GenomicTestLocationQuotient`), filtered to states where a category's local share is at least 1.5 times its national share, so the chart highlights genuine concentration rather than noise.
+Highest and lowest utilization states, both raw and normalized per 100,000 beneficiaries, are shown on the Geographic page map. Category concentration by state is answered using a Location Quotient calculation (`vw_GenomicTestLocationQuotient`).
 
 </details>
 
 <details>
 <summary><strong>Access gap (question 7), click to expand</strong></summary>
 
-Kentucky, Rhode Island, Nebraska, Ohio, and Kansas combine above median cancer incidence with genomic testing utilization under 10 services per 100,000 beneficiaries, among the largest gaps in the dataset. This is a descriptive pattern, not a causal claim. It flags where further investigation into testing adoption, provider availability, or payer coverage differences would be worthwhile, not a confirmed access barrier.
+Kentucky, Rhode Island, Nebraska, Ohio, and Kansas combine above median cancer incidence with genomic testing utilization under 10 services per 100,000 beneficiaries, among the largest gaps in the dataset. It flags where further investigation into testing adoption, provider availability, or payer coverage differences would be worthwhile, not a confirmed access barrier.
 
 Two states required extra scrutiny before this analysis was trustworthy. Wisconsin initially appeared as the single highest utilization state by a wide margin, which turned out to be almost entirely CPT 81528 (Cologuard), a colorectal cancer screening test whose billing is concentrated at one national lab headquartered in Wisconsin. CMS attributes services to the billing location, not the patient's location, so this was inflating Wisconsin's number by an order of magnitude. That code was excluded from the access gap view. Utah remained the highest utilization state after that fix, plausibly for a similar reason, since a major hereditary cancer testing lab is headquartered there, but this is disclosed as a limitation rather than further filtered, since the evidence for it is weaker than Wisconsin's case.
 
@@ -211,6 +211,9 @@ Core KPIs are defined once in `vw_GenomicKPIs` and reused consistently across ev
 
 ## Limitations
 
+<details>
+<summary><strong>Click to expand limitations of the project</strong></summary>
+
 - **Medicare only.** This analysis covers Medicare beneficiaries, mostly people 65 and older or with certain disabilities. It does not represent genomic testing patterns in the commercially insured or uninsured population, and shouldn't be read as a picture of national testing rates overall.
 - **CMS geographic attribution reflects the billing lab, not the patient.** The Wisconsin and Cologuard issue described above is the clearest example, but it's a general characteristic of this dataset, not a one-off bug. Any state with a large national reference lab headquartered in it should be read with that in mind, including Utah.
 - **CDC cancer incidence data runs through 2022, while CMS utilization data runs through 2024.** The access gap comparison is necessarily limited to the overlapping years. Utilization trends for 2023 and 2024 are shown on their own, without a matching incidence comparison.
@@ -218,7 +221,8 @@ Core KPIs are defined once in `vw_GenomicKPIs` and reused consistently across ev
 - **Small cell suppression.** CMS suppresses low counts for privacy, so a blank value for a rare code in a low population state may reflect suppression rather than zero testing.
 - **The aggregate growth comparison chart shows the average of each category's growth rate, not a single pooled growth rate across all categories combined.** A small category with a large percentage swing counts equally to a large category with a small swing in that particular chart. It's a legitimate summary metric, but a different number than "total spend grew by X percent," and is labeled as average category growth for that reason.
 - **Category boundaries involved judgment calls.** A handful of codes could reasonably sit in more than one category (for example, tumor testing that's also used diagnostically for a hereditary condition). Every one of these calls is documented with its rationale in the crosswalk file, so the reasoning is visible and can be second guessed by anyone reviewing the work.
-- **This is a descriptive analysis, not a causal one.** The access gap findings identify states that warrant further investigation. They don't establish why utilization is lower in those states, and shouldn't be read as proof of an access barrier on their own.
+
+</details>
 
 ## Repository structure
 

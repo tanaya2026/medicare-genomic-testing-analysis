@@ -8,7 +8,10 @@ How does genomic testing utilization among Medicare beneficiaries vary across U.
 
 ## Research questions
 
-Answers and methodology are in the [Findings](#findings-and-answers-to-the-research-questions) section further down.
+Answers and methodology are in the [Findings](#findings-and-answers-to-the-research-questions) section further down. 
+
+<details>
+<summary><strong>View the research questions per category (click to expand)</strong></summary>
 
 **Utilization**
 
@@ -38,6 +41,8 @@ Answers and methodology are in the [Findings](#findings-and-answers-to-the-resea
 12. Can the data be segmented interactively by state, year, category, and CPT code?
 13. Which states are statistical outliers on utilization, spend, or cost per service?
 14. What should a healthcare organization investigate based on these findings?
+
+</details>
 
 ## Tools and skills used
 
@@ -92,6 +97,7 @@ The full crosswalk workbook is included in this repo at `data/reference/cms_2018
 **Choosing Average over Sum for rates and population fields.** In the access gap view, each state and year can have more than one row, one per relevant test category. Fields like cancer incidence rate and state population don't vary by category, so they repeat across those rows. Averaging identical duplicate values returns the correct value.
 
 </details>
+
 ## Excel work
 
 - **Combining data**: the seven yearly CMS CSV files (2018 to 2024) were combined into one working dataset.
@@ -142,27 +148,27 @@ GO
 
 The structure follows KPIs, then Trends, then Geographic, then Outliers, then Access Gap.
 
-**Page 1, Overview**: five KPI cards (total services, beneficiaries, spend, cost per service, year over year growth), with slicers for year, state, and test category driving every visual on the page.
+**Page 1. Overview**: Five KPI cards (total services, beneficiaries, spend, cost per service, year over year growth), with slicers for year, state, and test category driving every visual on the page.
 
 ![Overview page](assets/Overview.gif)
 
-**Page 2, Trends**: a line chart of total services by test category over time, and a comparison of average spend growth against average utilization growth by year, answering whether spend is outpacing usage.
+**Page 2. Trends**: A line chart of total services by test category over time, and a comparison of average spend growth against average utilization growth by year, answering whether spend is outpacing usage.
 
 ![Trends page](assets/Trends.gif)
 
-**Page 3, Geographic**: a shape map of services per 100,000 beneficiaries by state, alongside a Location Quotient chart showing which test categories cluster in which states.
+**Page 3. Geographic**: A shape map of services per 100,000 beneficiaries by state, alongside a Location Quotient chart showing which test categories cluster in which states.
 
 ![Geographic page](assets/Geographic.gif)
 
-**Page 4, Outliers**: three charts flagging states as statistical outliers on utilization, spend, and cost per service, using z-scores rather than a simple ranked list.
+**Page 4. Outliers**: Three charts flagging states as statistical outliers on utilization, spend, and cost per service, using z-scores rather than a simple ranked list.
 
 ![Outliers page](assets/Outliers.gif)
 
-**Page 5, Access Gap**: a scatter plot of cancer incidence against testing utilization, one dot per state, with median reference lines splitting the chart into quadrants, and a written recommendation based on what falls into the high burden, low testing quadrant.
+**Page 5. Access Gap**: A scatter plot of cancer incidence against testing utilization, one dot per state, with median reference lines splitting the chart into quadrants, and a written recommendation based on what falls into the high burden, low testing quadrant.
 
 ![Access Gap page](assets/Access_Gap.gif)
 
-The `.pbix` file is included in this repo under `powerbi/`, so it can be opened directly in Power BI Desktop (free) for full interactivity, rather than relying only on the gifs above. A static PDF export is also included for a quick, no software required look.
+The `.pbix` file is included in this repo under `powerbi\Genomic_Testing_Dashboard.pbix` so it can be opened directly in Power BI Desktop (free) for full interactivity. A static PDF export is also included for a quick look, under `powerbi\Dashboard.pdf`.
 
 ## Findings and answers to the research questions
 

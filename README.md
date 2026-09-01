@@ -175,7 +175,13 @@ The `.pbix` file is included in this repo under `powerbi\Genomic_Testing_Dashboa
 <details>
 <summary><strong>Utilization (questions 1 to 3), click to expand</strong></summary>
 
-Total services, beneficiaries, and spend are answered directly by the Overview page KPI cards, sourced from `vw_GenomicKPIs`. Utilization trends and category growth rates are shown on the Trends page, sourced from `vw_YearlyCategoryGrowth`.
+**How much genomic testing is performed through Medicare?** Across 2018 to 2024, Medicare paid for 10,236,921 genomic testing services, totaling 6.72 billion dollars in spend. The beneficiary count (10,052,156) is a sum across years and categories, not a count of unique people, since the same beneficiary can appear in more than one year or test category.
+
+**How has genomic testing changed over time?** Utilization grew overall, from 1,142,429 services in 2018 to 2,337,590 in 2024, more than doubling. Growth wasn't steady. 2020 was the one year with a real drop, down 33.8% from 2019, plausibly tied to reduced elective testing during the early pandemic, though this dataset alone can't confirm that. The two biggest jumps came in 2023 (up 48.6%) and 2021 (up 40.3%).
+
+**Which categories are growing fastest?** Hereditary & Genetic Disease Testing (Non-Cancer) shows up repeatedly at the top of category growth, including a 567.9% jump in 2023 and 351.4% in 2021. Carrier / Prenatal Screening is the other consistent fast grower, appearing in the top 10 across three separate years (2023, 2022, 2021), suggesting sustained rather than one-off growth.
+
+Sourced from `vw_GenomicKPIs` and `vw_YearlyCategoryGrowth`.
 
 </details>
 
@@ -254,4 +260,4 @@ pip install -r requirements.txt
 1. Run the Python scripts in `src/data_acquisition/` to pull CMS and CDC source data.
 2. Run the Python scripts in `src/data_cleaning/` to clean the CMS data.
 3. Run the SQL scripts in `sql/views/` against a SQL Server instance to build the view layer.
-4. Open `powerbi/genomic_testing_dashboard.pbix` in Power BI Desktop and point it at your SQL Server instance under Data Source Settings.
+4. Open `powerbi/Genomic_Testing_Dashboard.pbix` in Power BI Desktop and point it at your SQL Server instance under Data Source Settings.

@@ -62,8 +62,10 @@ CMS versions this dataset by year, so the Python script (`src\data_acquisition\d
 
 </details>
 
-</details> 
 ## How the CPT to test category crosswalk was built
+
+<details>
+<summary><strong>How I built the crosswalk (click to expand)</strong></summary>
 
 **Step 1.** I mapped the first 168 CPT and HCPCS codes returned by the initial data pull into six categories: Hereditary Cancer Risk, Tumor Genomic Profiling, Pharmacogenomics, Carrier and Prenatal Screening, Hematologic Malignancy Monitoring, and an Other bucket for anything that didn't fit cleanly (HLA typing, generic unspecified molecular pathology codes, protein based biomarker panels).
 
@@ -71,7 +73,7 @@ CMS versions this dataset by year, so the Python script (`src\data_acquisition\d
 
 By the end, the crosswalk covered 291 codes across six core categories, with 41 codes correctly excluded as Other (transplant matching, generic unspecified codes, non genetic biomarker panels) and 13 excluded entirely as not genomic at all (routine urinalysis codes that matched the CPT filter by coincidence, and bacterial DNA and RNA panels that test pathogen genetics rather than human genetics).
 
-The full crosswalk workbook, including the rationale written for every single code, is included in this repo at `data/reference/cpt_category_crosswalk.xlsx`.
+The full crosswalk workbook is included in this repo at `data/reference/cms_2018_2024_combined.xlsx`. See page titled `Crosswalk`.
 
 </details>
 

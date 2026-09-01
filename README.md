@@ -91,19 +91,15 @@ The full crosswalk workbook is included in this repo at `data/reference/cms_2018
 
 **Choosing Average over Sum for rates and population fields.** In the access gap view, each state and year can have more than one row, one per relevant test category. Fields like cancer incidence rate and state population don't vary by category, so they repeat across those rows. Averaging identical duplicate values returns the correct value.
 
-<details>
+</details>
 ## Excel work
-
-Excel was used for more than formatting. Specifically:
 
 - **Combining data**: the seven yearly CMS CSV files (2018 to 2024) were combined into one working dataset.
 - **Applying the crosswalk**: VLOOKUP was used to join each CPT code against its assigned test category from the crosswalk table.
 - **QA with PivotTables**: built pivot tables for services by year, top states by volume, top HCPCS codes by volume, and category by year, both as an initial exploratory pass and again after the crosswalk was expanded in round two, to confirm the "Not Found" bucket had actually gone to zero.
-- **The crosswalk itself**: `cpt_category_crosswalk.xlsx`, included in this repo, contains every one of the 291 codes with its assigned category and a written rationale for that assignment, plus a formula driven summary tab using COUNTIF to tally codes per category.
+- **The crosswalk itself**: `data/reference/cms_2018_2024_combined.xlsx`. See page titled `Crosswalk`, included in this repo, contains every one of the 291 codes with its assigned category and a written rationale for that assignment.
 
 ## SQL work
-
-All modeling logic lives in SQL Server as a set of views, so every number in the dashboard traces back to a single, auditable source rather than being computed ad hoc inside Power BI.
 
 - `vw_GenomicKPIs`: the core aggregation, rolling raw claims data up to year, state, and test category, with total services, total beneficiaries, total spend, and cost per service.
 - `vw_YearlyCategoryGrowth`: year over year growth in services and spend by category, using `LAG()` to compare each year against the one before it, with the threshold based suppression described above.
@@ -112,32 +108,39 @@ All modeling logic lives in SQL Server as a set of views, so every number in the
 - `vw_StateOutliers`: flags states as statistical outliers (z-score above 2 or below negative 2) on utilization, spend, and cost per service.
 - `vw_CancerIncidenceVsGenomicTesting`: joins Medicare utilization against CDC cancer incidence for the two cancer relevant categories, the source for the access gap analysis, with CPT 81528 excluded as described above.
 
+View `src\sql` for SQL views and queries code.
+
 <details>
 <summary><strong>Full SQL for the core KPI view (click to expand)</strong></summary>
 
 ```sql
+-- Creates the main KPI view by summarizing the raw combined Medicare data 
+-- down to the year, state, and test category level.
 CREATE OR ALTER VIEW dbo.vw_GenomicKPIs AS
 SELECT 
-    Year,
-    Rndrng_Prvdr_Geo_Desc,
-    TEST_Category,
+    Year,Rndrng_Prvdr_Geo_Desc,TEST_Category,
+    -- Core totals
     SUM(Tot_Srvcs) AS Total_Services,
     SUM(Tot_Benes) AS Total_Beneficiaries,
     SUM(Avg_Mdcr_Pymt_Amt * Tot_Srvcs) AS Total_Spend,
+    -- Calculate cost per service, avoiding divide-by-zero errors
     CASE 
         WHEN SUM(Tot_Srvcs) > 0 THEN SUM(Avg_Mdcr_Pymt_Amt * Tot_Srvcs) / SUM(Tot_Srvcs)
         ELSE 0 
     END AS Cost_Per_Service
 FROM dbo.cms_2018_2024_combined
 WHERE TEST_Category NOT IN ('Other', 'Exclude - Not Genomic')
-GROUP BY Year, Rndrng_Prvdr_Geo_Desc, TEST_Category;
+GROUP BY 
+    Year,Rndrng_Prvdr_Geo_Desc,TEST_Category;
+GO
+
 ```
 
 </details>
 
 ## The Power BI dashboard
 
-Five pages, built to be read by an executive in under a minute, not a wall of every possible chart. The structure follows KPIs, then Trends, then Geographic, then Outliers, then Access Gap.
+The structure follows KPIs, then Trends, then Geographic, then Outliers, then Access Gap.
 
 **Page 1, Overview**: five KPI cards (total services, beneficiaries, spend, cost per service, year over year growth), with slicers for year, state, and test category driving every visual on the page.
 

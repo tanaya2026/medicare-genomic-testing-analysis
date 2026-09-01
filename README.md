@@ -2,41 +2,38 @@
 
 A data analytics project examining how genomic and molecular diagnostic testing under Medicare is used across the United States, and whether that testing lines up with where cancer burden is actually highest. Built with SQL Server, Power BI, Excel, and Python.
 
-## Why this project
-
-I wanted a portfolio project that did two things at once: show the core toolkit a healthcare data analyst is expected to know (SQL, Power BI, Excel), and use a background most analysts don't have. I studied bioinformatics and computer science, so instead of a generic healthcare topic like patient wait times, I picked a genuinely niche area: genomic and molecular diagnostic testing billed to Medicare.
-
-The project is deliberately built like a business analytics dashboard, not a research paper. The Power BI report follows a KPI to Trends to Geographic to Outliers to Access Gap structure, the same shape you'd expect from a dashboard built for a bank or retailer, not just a healthcare team. That was intentional. I wanted the same project to read as relevant for healthcare data analyst roles and general business analyst roles, since the underlying skills (KPI development, trend analysis, segmentation, outlier detection, geographic analysis, data integration) transfer directly.
-
 ## The main question
 
 How does genomic testing utilization among Medicare beneficiaries vary across U.S. states, and does utilization appear aligned with disease burden?
 
-That second half became the project's most interesting angle: comparing where genomic testing actually happens against where cancer incidence is highest, to flag states that might be worth a closer look. This is referred to throughout as the access gap analysis.
-
 ## Research questions
 
-All 14 questions below were tracked as the project's acceptance criteria from day one. Answers and methodology are in the [Findings](#findings-and-answers-to-the-research-questions) section further down, each one links back to the methodology that produced it.
+Answers and methodology are in the [Findings](#findings-and-answers-to-the-research-questions) section further down.
 
 **Utilization**
+
 1. How much genomic testing is performed through Medicare? (services, beneficiaries, spend)
 2. How has genomic testing changed over time? Is it increasing or decreasing, and which years had the biggest jumps?
 3. Which test categories are growing fastest?
 
 **Geographic**
+
 4. Which states have the highest and lowest utilization?
 5. Do differences persist after normalizing for the size of each state's Medicare population (tests per 100,000 beneficiaries)?
 6. Are specific test categories concentrated in particular states?
 
 **Access Gap**
+
 7. Are there states with relatively high cancer burden but relatively low genomic testing utilization?
 
 **Financial**
+
 8. How much is Medicare spending on genomic testing overall?
 9. How does spending vary by test category and state?
 10. Is spending growing at the same rate as utilization, or is one outpacing the other?
 
 **Business analytics layer**
+
 11. What are the core KPIs (total services, beneficiaries, spend, cost per service, services per 100k, YoY growth)?
 12. Can the data be segmented interactively by state, year, category, and CPT code?
 13. Which states are statistical outliers on utilization, spend, or cost per service?

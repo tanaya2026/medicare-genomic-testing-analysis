@@ -41,15 +41,11 @@ Answers and methodology are in the [Findings](#findings-and-answers-to-the-resea
 
 ## Tools and skills used
 
-This project touches the full analyst toolkit, applied to a real dataset from acquisition through to a finished dashboard.
-
-- **Python**: pulled data directly from CMS and CDC APIs, including dynamic catalog resolution against `data.cms.gov`'s public data.json index rather than hardcoding dataset IDs, since those IDs change year to year.
+- **Python**: pulled data directly from CMS and CDC APIs, including dynamic catalog resolution against `data.cms.gov`'s public data.json index rather than hardcoding dataset IDs, since those IDs change year to year. 
 - **SQL Server**: built the full data model as a set of views, including window functions (`LAG()` for year over year growth), statistical outlier detection (z-scores), and a Location Quotient calculation to measure geographic concentration.
 - **Excel**: built the CPT to test category crosswalk using VLOOKUP, combined seven years of CMS CSVs into one working dataset, and used PivotTables for exploratory QA at two separate stages of the project.
 - **Power BI**: a five page interactive dashboard with synced slicers, cross filtering, drill through, DAX measures, and conditional formatting.
 - **Data cleaning and mining**: performed at every stage of the pipeline, in SQL (exclusion filters, threshold based suppression), in Excel (crosswalk QA, pivot table cross checks), and in Python (server side filtering during data acquisition).
-
-This is best described as a **healthcare analytics** project in subject matter, but a **business analytics** and **data analytics** project in structure and skill set. The dashboard, the KPI framework, and the SQL modeling approach would look the same if the underlying data were retail sales or loan performance instead of medical claims.
 
 ## Data sources
 

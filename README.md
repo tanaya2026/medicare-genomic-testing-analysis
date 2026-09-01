@@ -62,17 +62,18 @@ CMS versions this dataset by year, so the Python script (`src\data_acquisition\d
 
 </details>
 
+</details> 
 ## How the CPT to test category crosswalk was built
 
-This is the part of the project that leans hardest on a bioinformatics background, and it took two rounds to get right.
+**Step 1.** I mapped the first 168 CPT and HCPCS codes returned by the initial data pull into six categories: Hereditary Cancer Risk, Tumor Genomic Profiling, Pharmacogenomics, Carrier and Prenatal Screening, Hematologic Malignancy Monitoring, and an Other bucket for anything that didn't fit cleanly (HLA typing, generic unspecified molecular pathology codes, protein based biomarker panels).
 
-**Round one.** I mapped the first 168 CPT and HCPCS codes returned by the initial data pull into six categories: Hereditary Cancer Risk, Tumor Genomic Profiling, Pharmacogenomics, Carrier and Prenatal Screening, Hematologic Malignancy Monitoring, and an Other bucket for anything that didn't fit cleanly (HLA typing, generic unspecified molecular pathology codes, protein based biomarker panels).
-
-**Round two.** Once the crosswalk was applied to the full seven year dataset in Excel, a PivotTable QA check surfaced a serious problem: about 2.35 million services fell into a "Not Found" bucket because the codes appearing in the fuller dataset weren't in the original 168 code list. Rather than guess at these, I pulled the full list of unmatched codes ranked by volume and researched what each one actually tests for. This surfaced a large, legitimate category the original plan hadn't anticipated: non-cancer hereditary and genetic disease testing, covering things like inherited cardiac disease panels, hearing loss panels, ataxias, Huntington's disease, myotonic dystrophy, and exome or genome sequencing for undiagnosed conditions. That became a sixth core category rather than being forced into Other, since it represented real, sizable testing volume with a clear clinical identity of its own.
+**Step 2.** Once the crosswalk was applied to the full seven year dataset in Excel, a PivotTable QA check surfaced a serious problem: about 2.35 million services fell into a "Not Found" bucket because the codes appearing in the fuller dataset weren't in the original 168 code list. Rather than guess at these, I pulled the full list of unmatched codes ranked by volume and researched what each one actually tests for. This surfaced a large, legitimate category, `non-cancer hereditary and genetic disease testing`, covering things like inherited cardiac disease panels, hearing loss panels, ataxias, Huntington's disease, myotonic dystrophy, and exome or genome sequencing for undiagnosed conditions. That became a sixth core category rather than being forced into Other, since it represented real, sizable testing volume with a clear clinical identity of its own.
 
 By the end, the crosswalk covered 291 codes across six core categories, with 41 codes correctly excluded as Other (transplant matching, generic unspecified codes, non genetic biomarker panels) and 13 excluded entirely as not genomic at all (routine urinalysis codes that matched the CPT filter by coincidence, and bacterial DNA and RNA panels that test pathogen genetics rather than human genetics).
 
 The full crosswalk workbook, including the rationale written for every single code, is included in this repo at `data/reference/cpt_category_crosswalk.xlsx`.
+
+</details>
 
 ## Key decisions made along the way
 
